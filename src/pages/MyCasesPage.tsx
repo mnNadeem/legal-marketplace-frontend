@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { casesApi } from '../services/api';
-import { extractList, extractTotal } from '../utils/apiHelpers';
-import { Case } from '../types';
-import { Clock, CheckCircle, XCircle, FileText, DollarSign } from 'lucide-react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { casesApi } from "../services/api";
+import { extractList, extractTotal } from "../utils/apiHelpers";
+import { Case } from "../types";
+import {
+  Clock,
+  CheckCircle,
+  XCircle,
+  FileText,
+  DollarSign,
+} from "lucide-react";
 
 const MyCasesPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['myCases', page, limit],
+    queryKey: ["myCases", page, limit],
     queryFn: () => casesApi.getAll({ page, limit }),
   });
 
@@ -26,13 +32,13 @@ const MyCasesPage: React.FC = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'open':
+      case "open":
         return <Clock className="h-5 w-5 text-yellow-500" />;
-      case 'engaged':
+      case "engaged":
         return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'closed':
+      case "closed":
         return <CheckCircle className="h-5 w-5 text-gray-500" />;
-      case 'cancelled':
+      case "cancelled":
         return <XCircle className="h-5 w-5 text-red-500" />;
       default:
         return <Clock className="h-5 w-5 text-gray-500" />;
@@ -41,16 +47,16 @@ const MyCasesPage: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'open':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'engaged':
-        return 'bg-green-100 text-green-800';
-      case 'closed':
-        return 'bg-gray-100 text-gray-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
+      case "open":
+        return "bg-yellow-100 text-yellow-800";
+      case "engaged":
+        return "bg-green-100 text-green-800";
+      case "closed":
+        return "bg-gray-100 text-gray-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -62,7 +68,9 @@ const MyCasesPage: React.FC = () => {
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
               My Cases
             </h2>
-            <p className="mt-1 text-sm text-gray-500">View and manage your cases.</p>
+            <p className="mt-1 text-sm text-gray-500">
+              View and manage your cases.
+            </p>
           </div>
           <div className="mt-4 flex md:mt-0 md:ml-4">
             <Link to="/create-case">
@@ -78,7 +86,9 @@ const MyCasesPage: React.FC = () => {
         ) : cases.length === 0 ? (
           <Card className="text-center py-12">
             <FileText className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No cases yet</h3>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">
+              No cases yet
+            </h3>
             <p className="mt-1 text-sm text-gray-500">
               Get started by creating your first legal case.
             </p>
@@ -107,7 +117,9 @@ const MyCasesPage: React.FC = () => {
                             <p className="text-sm font-medium text-primary-600 truncate">
                               {c.title}
                             </p>
-                            <span className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(c.status)}`}>
+                            <span
+                              className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(c.status)}`}
+                            >
                               {c.status}
                             </span>
                           </div>
@@ -165,4 +177,3 @@ const MyCasesPage: React.FC = () => {
 };
 
 export default MyCasesPage;
-

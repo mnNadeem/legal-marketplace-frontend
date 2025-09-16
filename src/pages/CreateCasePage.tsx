@@ -93,7 +93,6 @@ const CreateCasePage: React.FC = () => {
       });
     },
     onDropRejected: (fileRejections) => {
-      // Show a single toast when exceeding maxFiles
       const hasTooMany = fileRejections.some((rej) =>
         rej.errors.some((e) => e.code === 'too-many-files')
       );
@@ -102,7 +101,6 @@ const CreateCasePage: React.FC = () => {
         return;
       }
 
-      // Aggregate other errors into one toast message to avoid spamming
       const messages = new Set<string>();
       for (const rej of fileRejections) {
         for (const err of rej.errors) {

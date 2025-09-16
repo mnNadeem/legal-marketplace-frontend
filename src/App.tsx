@@ -122,7 +122,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              {/* Add the new route for My Quotes */}
               <Route
                 path="/my-quotes"
                 element={

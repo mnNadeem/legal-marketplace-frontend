@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import AuthLayout from '../components/auth/AuthLayout';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import Select from '../components/ui/Select';
+import React, { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import AuthLayout from "../components/auth/AuthLayout";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import Select from "../components/ui/Select";
 
 interface SignupFormData {
   email: string;
@@ -24,10 +24,10 @@ const SignupPage: React.FC = () => {
   const navigate = useNavigate();
   const { role } = useParams<{ role: string }>();
 
-  console.log("param", role)
-  
-  const isLawyer = role === 'lawyer';
-  
+  console.log("param", role);
+
+  const isLawyer = role === "lawyer";
+
   const {
     register,
     handleSubmit,
@@ -35,7 +35,7 @@ const SignupPage: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<SignupFormData>();
 
-  const password = watch('password');
+  const password = watch("password");
 
   const onSubmit = async (data: SignupFormData) => {
     try {
@@ -43,7 +43,7 @@ const SignupPage: React.FC = () => {
         email: data.email,
         password: data.password,
         name: data.name,
-        role: role as 'client' | 'lawyer',
+        role: role as "client" | "lawyer",
         ...(isLawyer && {
           jurisdiction: data.jurisdiction,
           barNumber: data.barNumber,
@@ -51,31 +51,31 @@ const SignupPage: React.FC = () => {
       };
 
       console.log(signupData);
-      
+
       await signup(signupData);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   const jurisdictionOptions = [
-    { value: '', label: 'Select jurisdiction' },
-    { value: 'New York', label: 'New York' },
-    { value: 'California', label: 'California' },
-    { value: 'Texas', label: 'Texas' },
-    { value: 'Florida', label: 'Florida' },
-    { value: 'Illinois', label: 'Illinois' },
-    { value: 'Pennsylvania', label: 'Pennsylvania' },
-    { value: 'Ohio', label: 'Ohio' },
-    { value: 'Georgia', label: 'Georgia' },
-    { value: 'North Carolina', label: 'North Carolina' },
+    { value: "", label: "Select jurisdiction" },
+    { value: "New York", label: "New York" },
+    { value: "California", label: "California" },
+    { value: "Texas", label: "Texas" },
+    { value: "Florida", label: "Florida" },
+    { value: "Illinois", label: "Illinois" },
+    { value: "Pennsylvania", label: "Pennsylvania" },
+    { value: "Ohio", label: "Ohio" },
+    { value: "Georgia", label: "Georgia" },
+    { value: "North Carolina", label: "North Carolina" },
   ];
 
   return (
     <AuthLayout
-      title={`Sign up as a ${isLawyer ? 'Lawyer' : 'Client'}`}
-      subtitle={`Create your ${isLawyer ? 'lawyer' : 'client'} account to get started.`}
+      title={`Sign up as a ${isLawyer ? "Lawyer" : "Client"}`}
+      subtitle={`Create your ${isLawyer ? "lawyer" : "client"} account to get started.`}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Input
@@ -83,11 +83,11 @@ const SignupPage: React.FC = () => {
           type="text"
           autoComplete="name"
           placeholder="Enter your full name"
-          {...register('name', {
-            required: 'Name is required',
+          {...register("name", {
+            required: "Name is required",
             minLength: {
               value: 2,
-              message: 'Name must be at least 2 characters',
+              message: "Name must be at least 2 characters",
             },
           })}
           error={errors.name?.message}
@@ -98,11 +98,11 @@ const SignupPage: React.FC = () => {
           type="email"
           autoComplete="email"
           placeholder="Enter your email"
-          {...register('email', {
-            required: 'Email is required',
+          {...register("email", {
+            required: "Email is required",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email address',
+              message: "Invalid email address",
             },
           })}
           error={errors.email?.message}
@@ -114,7 +114,7 @@ const SignupPage: React.FC = () => {
               label="Jurisdiction"
               placeholder="Select your jurisdiction"
               options={jurisdictionOptions}
-              {...register('jurisdiction')}
+              {...register("jurisdiction")}
               error={errors.jurisdiction?.message}
             />
 
@@ -122,7 +122,7 @@ const SignupPage: React.FC = () => {
               label="Bar Number (Optional)"
               type="text"
               placeholder="Enter your bar number"
-              {...register('barNumber')}
+              {...register("barNumber")}
               error={errors.barNumber?.message}
             />
           </>
@@ -131,18 +131,20 @@ const SignupPage: React.FC = () => {
         <div className="relative">
           <Input
             label="Password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             autoComplete="new-password"
             placeholder="Create a password"
-            {...register('password', {
-              required: 'Password is required',
+            {...register("password", {
+              required: "Password is required",
               minLength: {
                 value: 8,
-                message: 'Password must be at least 8 characters',
+                message: "Password must be at least 8 characters",
               },
               pattern: {
-                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                message: 'Password must contain uppercase, lowercase, number, and special character',
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+                message:
+                  "Password must contain uppercase, lowercase, number, and special character",
               },
             })}
             error={errors.password?.message}
@@ -163,13 +165,13 @@ const SignupPage: React.FC = () => {
         <div className="relative">
           <Input
             label="Confirm password"
-            type={showConfirmPassword ? 'text' : 'password'}
+            type={showConfirmPassword ? "text" : "password"}
             autoComplete="new-password"
             placeholder="Confirm your password"
-            {...register('confirmPassword', {
-              required: 'Please confirm your password',
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
               validate: (value) =>
-                value === password || 'Passwords do not match',
+                value === password || "Passwords do not match",
             })}
             error={errors.confirmPassword?.message}
           />
@@ -202,7 +204,9 @@ const SignupPage: React.FC = () => {
             <div className="w-full border-t border-gray-300" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Already have an account?</span>
+            <span className="px-2 bg-white text-gray-500">
+              Already have an account?
+            </span>
           </div>
         </div>
 

@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Clock, DollarSign, FileText } from 'lucide-react';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import Select from '../components/ui/Select';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { quotesApi } from '../services/api';
-import { extractList, extractTotal } from '../utils/apiHelpers';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Clock, DollarSign, FileText } from "lucide-react";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Select from "../components/ui/Select";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { quotesApi } from "../services/api";
+import { extractList, extractTotal } from "../utils/apiHelpers";
 
 const MyQuotesPage: React.FC = () => {
   const [filters, setFilters] = useState({
-    status: 'all',
+    status: "all",
     page: 1,
     limit: 10,
   });
 
   const { data: quotesData, isLoading } = useQuery({
-    queryKey: ['myQuotes', filters],
+    queryKey: ["myQuotes", filters],
     queryFn: () => quotesApi.getAll(filters),
   });
 
@@ -27,22 +27,22 @@ const MyQuotesPage: React.FC = () => {
   const totalQuotes = extractTotal(raw, quotes);
 
   const statusFilterOptions = [
-    { value: 'all', label: 'All Statuses' },
-    { value: 'proposed', label: 'Proposed' },
-    { value: 'accepted', label: 'Accepted' },
-    { value: 'rejected', label: 'Rejected' },
+    { value: "all", label: "All Statuses" },
+    { value: "proposed", label: "Proposed" },
+    { value: "accepted", label: "Accepted" },
+    { value: "rejected", label: "Rejected" },
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'proposed':
-        return 'bg-blue-100 text-blue-800';
-      case 'accepted':
-        return 'bg-green-100 text-green-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
+      case "proposed":
+        return "bg-blue-100 text-blue-800";
+      case "accepted":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -78,7 +78,7 @@ const MyQuotesPage: React.FC = () => {
                 placeholder="All statuses"
                 options={statusFilterOptions}
                 value={filters.status}
-                onChange={(e) => handleFilterChange('status', e.target.value)}
+                onChange={(e) => handleFilterChange("status", e.target.value)}
               />
             </div>
           </div>
@@ -98,9 +98,12 @@ const MyQuotesPage: React.FC = () => {
           ) : quotes.length === 0 ? (
             <Card className="text-center py-12">
               <FileText className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No quotes found</h3>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                No quotes found
+              </h3>
               <p className="mt-1 text-sm text-gray-500">
-                You haven't submitted any quotes yet. Browse the marketplace to get started.
+                You haven't submitted any quotes yet. Browse the marketplace to
+                get started.
               </p>
               <div className="mt-6">
                 <Link to="/marketplace">
@@ -117,7 +120,8 @@ const MyQuotesPage: React.FC = () => {
                       <div className="flex-1">
                         <div className="flex items-center mb-2">
                           <h3 className="text-lg font-medium text-gray-900 mr-3">
-                            Quote for case: {quote.case?.title || 'Case not found'}
+                            Quote for case:{" "}
+                            {quote.case?.title || "Case not found"}
                           </h3>
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(quote.status)}`}
@@ -145,14 +149,15 @@ const MyQuotesPage: React.FC = () => {
                       </div>
 
                       <div className="ml-4 flex-shrink-0">
-                        {quote.status === 'accepted' && quote.case?.status === 'engaged' && (
-                          <Link to={`/cases/${quote.caseId}`}>
-                            <Button size="sm">
-                              <FileText className="h-4 w-4 mr-2" />
-                              View Case & Files
-                            </Button>
-                          </Link>
-                        )}
+                        {quote.status === "accepted" &&
+                          quote.case?.status === "engaged" && (
+                            <Link to={`/cases/${quote.caseId}`}>
+                              <Button size="sm">
+                                <FileText className="h-4 w-4 mr-2" />
+                                View Case & Files
+                              </Button>
+                            </Link>
+                          )}
                       </div>
                     </div>
                   </Card>

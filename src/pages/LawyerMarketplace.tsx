@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Filter, Clock, DollarSign, FileText, Eye } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
-import Select from '../components/ui/Select';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { casesApi } from '../services/api';
-import { extractList, extractTotal } from '../utils/apiHelpers';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Filter, Clock, DollarSign, FileText, Eye } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Card from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
+import Select from "../components/ui/Select";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { casesApi } from "../services/api";
+import { extractList, extractTotal } from "../utils/apiHelpers";
 
 const LawyerMarketplace: React.FC = () => {
   const { user } = useAuth();
   const [filters, setFilters] = useState({
-    category: '',
-    createdSince: '',
+    category: "",
+    createdSince: "",
     page: 1,
     limit: 10,
   });
 
   const { data: casesData, isLoading } = useQuery({
-    queryKey: ['marketplace', filters],
+    queryKey: ["marketplace", filters],
     queryFn: () => casesApi.getAll(filters),
   });
 
@@ -31,33 +31,33 @@ const LawyerMarketplace: React.FC = () => {
   const totalCases = extractTotal(raw, cases);
 
   const categoryOptions = [
-    { value: '', label: 'All Categories' },
-    { value: 'Contract Law', label: 'Contract Law' },
-    { value: 'Criminal Law', label: 'Criminal Law' },
-    { value: 'Family Law', label: 'Family Law' },
-    { value: 'Personal Injury', label: 'Personal Injury' },
-    { value: 'Employment Law', label: 'Employment Law' },
-    { value: 'Real Estate', label: 'Real Estate' },
-    { value: 'Intellectual Property', label: 'Intellectual Property' },
-    { value: 'Tax Law', label: 'Tax Law' },
-    { value: 'Immigration', label: 'Immigration' },
-    { value: 'Bankruptcy', label: 'Bankruptcy' },
-    { value: 'Other', label: 'Other' },
+    { value: "", label: "All Categories" },
+    { value: "Contract Law", label: "Contract Law" },
+    { value: "Criminal Law", label: "Criminal Law" },
+    { value: "Family Law", label: "Family Law" },
+    { value: "Personal Injury", label: "Personal Injury" },
+    { value: "Employment Law", label: "Employment Law" },
+    { value: "Real Estate", label: "Real Estate" },
+    { value: "Intellectual Property", label: "Intellectual Property" },
+    { value: "Tax Law", label: "Tax Law" },
+    { value: "Immigration", label: "Immigration" },
+    { value: "Bankruptcy", label: "Bankruptcy" },
+    { value: "Other", label: "Other" },
   ];
 
   const timeFilterOptions = [
-    { value: '', label: 'Any time' },
-    { value: '2024-01-01T00:00:00.000Z', label: 'Last 30 days' },
-    { value: '2024-06-01T00:00:00.000Z', label: 'Last 6 months' },
-    { value: '2023-01-01T00:00:00.000Z', label: 'Last year' },
+    { value: "", label: "Any time" },
+    { value: "2024-01-01T00:00:00.000Z", label: "Last 30 days" },
+    { value: "2024-06-01T00:00:00.000Z", label: "Last 6 months" },
+    { value: "2023-01-01T00:00:00.000Z", label: "Last year" },
   ];
 
   const handleFilterChange = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value, page: 1 }));
+    setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
   };
 
   const handlePageChange = (newPage: number) => {
-    setFilters(prev => ({ ...prev, page: newPage }));
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const totalPages = Math.ceil(totalCases / filters.limit);
@@ -71,7 +71,8 @@ const LawyerMarketplace: React.FC = () => {
               Legal Marketplace
             </h2>
             <p className="mt-1 text-sm text-gray-500">
-              Browse open cases and submit quotes to help clients with their legal needs.
+              Browse open cases and submit quotes to help clients with their
+              legal needs.
             </p>
           </div>
         </div>
@@ -83,7 +84,7 @@ const LawyerMarketplace: React.FC = () => {
                 label="Search"
                 placeholder="Search cases..."
                 value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
               />
             </div>
             <div>
@@ -92,7 +93,7 @@ const LawyerMarketplace: React.FC = () => {
                 placeholder="All categories"
                 options={categoryOptions}
                 value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
+                onChange={(e) => handleFilterChange("category", e.target.value)}
               />
             </div>
             <div>
@@ -101,7 +102,9 @@ const LawyerMarketplace: React.FC = () => {
                 placeholder="Any time"
                 options={timeFilterOptions}
                 value={filters.createdSince}
-                onChange={(e) => handleFilterChange('createdSince', e.target.value)}
+                onChange={(e) =>
+                  handleFilterChange("createdSince", e.target.value)
+                }
               />
             </div>
           </div>
@@ -125,7 +128,9 @@ const LawyerMarketplace: React.FC = () => {
           ) : cases.length === 0 ? (
             <Card className="text-center py-12">
               <FileText className="mx-auto h-12 w-12 text-gray-400" />
-              <h3 className="mt-2 text-sm font-medium text-gray-900">No cases found</h3>
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                No cases found
+              </h3>
               <p className="mt-1 text-sm text-gray-500">
                 Try adjusting your filters or check back later for new cases.
               </p>
@@ -145,15 +150,16 @@ const LawyerMarketplace: React.FC = () => {
                             {case_.category}
                           </span>
                         </div>
-                        
+
                         <p className="text-gray-600 mb-4 line-clamp-3">
                           {case_.description}
                         </p>
-                        
+
                         <div className="flex items-center space-x-6 text-sm text-gray-500">
                           <div className="flex items-center">
                             <Clock className="h-4 w-4 mr-1" />
-                            Posted {new Date(case_.createdAt).toLocaleDateString()}
+                            Posted{" "}
+                            {new Date(case_.createdAt).toLocaleDateString()}
                           </div>
                           <div className="flex items-center">
                             <FileText className="h-4 w-4 mr-1" />
@@ -165,10 +171,13 @@ const LawyerMarketplace: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="ml-4 flex flex-col space-y-2">
                         <Link to={`/cases/${case_.id}`}>
-                          <Button size="sm" className="inline-flex items-center">
+                          <Button
+                            size="sm"
+                            className="inline-flex items-center"
+                          >
                             <Eye className="h-4 w-4 mr-2" />
                             View Details
                           </Button>
@@ -229,7 +238,9 @@ const LawyerMarketplace: React.FC = () => {
               <div className="mt-2 text-sm text-blue-700">
                 <ul className="list-disc list-inside space-y-1">
                   <li>Read case details carefully before submitting quotes</li>
-                  <li>Provide competitive pricing while ensuring fair compensation</li>
+                  <li>
+                    Provide competitive pricing while ensuring fair compensation
+                  </li>
                   <li>Include a detailed note explaining your approach</li>
                   <li>Set realistic timelines for case completion</li>
                 </ul>
